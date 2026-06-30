@@ -1,0 +1,329 @@
+// =====================================================
+// STYLEMARKET V2.5
+// Main JavaScript
+// =====================================================
+
+// -----------------------------
+// Local Storage
+// -----------------------------
+
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+// -----------------------------
+// Default Products
+// -----------------------------
+
+if (products.length === 0) {
+
+products = [
+
+{
+id:1,
+seller:"Nike",
+name:"Black Hoodie",
+category:"Tops",
+description:"Premium cotton hoodie in excellent condition.",
+price:40,
+image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
+date:new Date().toLocaleDateString()
+},
+
+{
+id:2,
+seller:"Levi's",
+name:"Blue Jeans",
+category:"Bottoms",
+description:"Classic straight fit denim jeans.",
+price:60,
+image:"https://images.unsplash.com/photo-1542272604-787c38355310?w=800",
+date:new Date().toLocaleDateString()
+},
+
+{
+id:3,
+seller:"Adidas",
+name:"Running Shoes",
+category:"Shoes",
+description:"Comfortable running shoes with great grip.",
+price:90,
+image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+date:new Date().toLocaleDateString()
+}
+
+];
+
+saveProducts();
+
+}
+
+// -----------------------------
+// HTML Elements
+// -----------------------------
+
+const productsContainer = document.getElementById("products");
+
+const searchInput = document.getElementById("search");
+
+const sellerInput = document.getElementById("seller");
+
+const nameInput = document.getElementById("name");
+
+const categoryInput = document.getElementById("category");
+
+const descriptionInput = document.getElementById("description");
+
+const priceInput = document.getElementById("price");
+
+const imageInput = document.getElementById("imageFile");
+
+const addButton = document.getElementById("addProduct");
+
+// -----------------------------
+// Save Functions
+// -----------------------------
+
+function saveProducts(){
+
+localStorage.setItem(
+"products",
+JSON.stringify(products)
+);
+
+}
+
+function saveCart(){
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+}
+
+function saveFavorites(){
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
+
+}
+
+// -----------------------------
+// Toast
+// -----------------------------
+
+function showToast(message){
+
+const toast=document.getElementById("toast");
+
+toast.innerText=message;
+
+toast.style.display="block";
+
+setTimeout(()=>{
+
+toast.style.display="none";
+
+},2500);
+
+}
+
+// -----------------------------
+// Product Cards
+// -----------------------------
+
+function renderProducts(list=products){
+
+productsContainer.innerHTML="";
+
+if(list.length===0){
+
+productsContainer.innerHTML=`
+
+<h2 style="text-align:center;width:100%;">
+
+No products found.
+
+</h2>
+
+`;
+
+return;
+
+}
+
+list.forEach(product=>{
+
+const saved=favorites.includes(product.id);
+
+productsContainer.innerHTML+=`
+
+<div class="card">
+
+<img src="${product.image}" alt="${product.name}">
+
+<div class="card-content">
+
+<div class="seller">
+
+👤 ${product.seller}
+
+</div>
+
+<div class="category">
+
+${product.category}
+
+</div>
+
+<h3>
+
+${product.name}
+
+</h3>
+
+<p class="description">
+
+${product.description}
+
+</p>
+
+<div class="price">
+
+$${product.price}
+
+</div>
+
+<button
+class="favorite"
+onclick="toggleFavorite(${product.id})">
+
+${saved ? "❤️ Saved" : "🤍 Save"}
+
+</button>
+
+<button
+class="buyBtn"
+onclick="addToCart(${product.id})">
+
+Add To Cart
+
+</button>
+
+<span class="date">
+
+Listed ${product.date}
+
+</span>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+renderProducts();
+
+// -----------------------------
+// Search
+// -----------------------------
+
+searchInput.addEventListener("input",()=>{
+
+const text=searchInput.value.toLowerCase();
+
+const filtered=products.filter(product=>{
+
+return(
+
+product.name.toLowerCase().includes(text) ||
+
+product.category.toLowerCase().includes(text) ||
+
+product.seller.toLowerCase().includes(text)
+
+);
+
+});
+
+renderProducts(filtered);
+
+});
+
+// -----------------------------
+// Upload Product
+// -----------------------------
+
+addButton.addEventListener("click",()=>{
+
+const seller=sellerInput.value.trim();
+
+const name=nameInput.value.trim();
+
+const category=categoryInput.value;
+
+const description=descriptionInput.value.trim();
+
+const price=priceInput.value;
+
+const file=imageInput.files[0];
+
+if(!seller||!name||!description||!price||!file){
+
+showToast("Please complete every field.");
+
+return;
+
+}
+
+const reader=new FileReader();
+
+reader.onload=function(event){
+
+products.unshift({
+
+id:Date.now(),
+
+seller:seller,
+
+name:name,
+
+category:category,
+
+description:description,
+
+price:Number(price),
+
+image:event.target.result,
+
+date:new Date().toLocaleDateString()
+
+});
+
+saveProducts();
+
+renderProducts();
+
+sellerInput.value="";
+nameInput.value="";
+descriptionInput.value="";
+priceInput.value="";
+imageInput.value="";
+categoryInput.selectedIndex=0;
+
+showToast("Listing published!");
+
+};
+
+reader.readAsDataURL(file);
+
+});

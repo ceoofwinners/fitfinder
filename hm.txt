@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StyleMarket</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<div class="logo">
+
+<h1>StyleMarket</h1>
+
+<p>Buy • Sell • Discover</p>
+
+</div>
+
+<nav>
+
+<a href="#">Home</a>
+<a href="#">Trending</a>
+<a href="#">Sell</a>
+<a href="#">Favorites</a>
+
+<button id="cartBtn">
+
+🛒
+
+<span id="cartCount">0</span>
+
+</button>
+
+</nav>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<h2>Buy & Sell Fashion Worldwide</h2>
+
+<p>
+
+Thousands of unique clothing items uploaded every day.
+
+</p>
+
+<input
+
+type="text"
+
+id="search"
+
+placeholder="Search clothes, brands or sellers...">
+
+</section>
+
+<!-- ================= SELL FORM ================= -->
+
+<section class="sell">
+
+<h2>Sell Your Clothing</h2>
+
+<div class="form-grid">
+
+<input
+type="text"
+id="seller"
+placeholder="Seller Name">
+
+<input
+type="text"
+id="name"
+placeholder="Item Name">
+
+<select id="category">
+
+<option>Tops</option>
+<option>Bottoms</option>
+<option>Shoes</option>
+<option>Outerwear</option>
+<option>Accessories</option>
+
+</select>
+
+<input
+type="number"
+id="price"
+placeholder="Price">
+
+<textarea
+id="description"
+placeholder="Describe your item..."></textarea>
+
+<input
+type="file"
+id="imageFile"
+accept="image/*">
+
+<button id="addProduct">
+
+Publish Listing
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+
+<section>
+
+<h2 class="section-title">
+
+Newest Listings
+
+</h2>
+
+<div
+
+id="products"
+
+class="products">
+
+</div>
+
+</section>
+
+<!-- ================= CART ================= -->
+
+<div id="cartModal" class="modal">
+
+<div class="modal-content">
+
+<h2>Your Cart</h2>
+
+<div id="cartItems">
+
+</div>
+
+<h3 id="total">
+
+Total: $0
+
+</h3>
+
+<button id="closeCart">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= TOAST ================= -->
+
+<div id="toast"></div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<div>
+
+<h3>StyleMarket</h3>
+
+<p>
+
+The easiest place to buy and sell clothes.
+
+</p>
+
+</div>
+
+<div>
+
+<p>
+
+© 2026 StyleMarket
+
+</p>
+
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
